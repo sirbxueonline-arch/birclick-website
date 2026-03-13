@@ -98,23 +98,6 @@ export default function WaitlistSection() {
 
       <div className="relative z-10 max-w-3xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
 
-        {/* Badge */}
-        <div
-          className="inline-flex items-center gap-2 rounded-full px-4 py-1.5 mb-10 border"
-          style={{
-            backgroundColor: "rgba(59,59,255,0.2)",
-            borderColor: "rgba(59,59,255,0.4)",
-          }}
-        >
-          <span
-            className="w-2 h-2 rounded-full animate-pulse"
-            style={{ backgroundColor: "#3B3BFF" }}
-          />
-          <span className="text-sm font-semibold" style={{ color: "#8080FF" }}>
-            Məhdud erkən giriş
-          </span>
-        </div>
-
         {/* Headline */}
         <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight mb-5 sm:mb-6">
           BirClick başlayanda
