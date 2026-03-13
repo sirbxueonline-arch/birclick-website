@@ -1,6 +1,10 @@
+"use client";
+
 import Image from "next/image";
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function Footer() {
+  const { t } = useLanguage();
   return (
     <footer className="bg-black border-t border-white/10">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -22,14 +26,14 @@ export default function Footer() {
               />
             </div>
             <p className="text-white/40 text-sm max-w-xs text-center md:text-left">
-              Azərbaycanda saatlıq və günlük xidmətlər üçün platforma.
+              {t.footer.tagline}
             </p>
           </div>
 
           {/* Links */}
           <div className="flex flex-col items-center md:items-end gap-3 text-sm">
             <p className="text-white/20 uppercase tracking-widest text-xs font-bold mb-1">
-              Əlaqə
+              {t.footer.contactLabel}
             </p>
             <a
               href="mailto:hello@birclick.az"
@@ -60,11 +64,9 @@ export default function Footer() {
         <div className="flex flex-col sm:flex-row items-center justify-between
           gap-2 py-5 border-t border-white/10">
           <p className="text-white/25 text-xs">
-            © {new Date().getFullYear()} BirClick. Bütün hüquqlar qorunur.
+            {t.footer.rights(new Date().getFullYear())}
           </p>
-          <p className="text-white/20 text-xs">
-            Azərbaycan üçün xidmət platforması.
-          </p>
+          <p className="text-white/20 text-xs">{t.footer.badge}</p>
         </div>
       </div>
     </footer>

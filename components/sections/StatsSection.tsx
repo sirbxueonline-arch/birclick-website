@@ -1,32 +1,15 @@
-const stats = [
-  {
-    icon: "🆓",
-    value: "0 ₼",
-    label: "Qeydiyyat haqqı yoxdur",
-  },
-  {
-    icon: "⚡",
-    value: "Saniyələr",
-    label: "içində işçi tap",
-  },
-  {
-    icon: "📍",
-    value: "Bakı",
-    label: "İlk şəhər — tezliklə genişlənir",
-  },
-  {
-    icon: "🔒",
-    value: "Etibarlı",
-    label: "Rəylər ilə yoxlanılmış işçilər",
-  },
-];
+"use client";
+
+import { useLanguage } from "@/components/LanguageProvider";
 
 export default function StatsSection() {
+  const { t } = useLanguage();
+
   return (
     <section className="border-y border-gray-100 bg-gray-50/60">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid grid-cols-2 lg:grid-cols-4 lg:divide-x divide-gray-100">
-          {stats.map((s, i) => (
+          {t.stats.map((s, i) => (
             <div
               key={i}
               className={`flex flex-col sm:flex-row items-center sm:items-start

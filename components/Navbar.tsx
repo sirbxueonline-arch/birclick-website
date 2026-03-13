@@ -2,9 +2,12 @@
 
 import { useState, useEffect } from "react";
 import Image from "next/image";
+import { useLanguage } from "@/components/LanguageProvider";
+import LanguageSwitcher from "@/components/LanguageSwitcher";
 
 export default function Navbar() {
   const [scrolled, setScrolled] = useState(false);
+  const { t, lang } = useLanguage();
 
   useEffect(() => {
     const handleScroll = () => setScrolled(window.scrollY > 20);
@@ -44,17 +47,22 @@ export default function Navbar() {
             />
           </div>
 
-          {/* CTA */}
-          <button
-            onClick={scrollToWaitlist}
-            className="text-white px-4 sm:px-5 py-2.5 rounded-full text-sm font-semibold
-              hover:opacity-90 hover:shadow-lg hover:scale-105 transition-all duration-200
-              whitespace-nowrap"
-            style={{ backgroundColor: "#3B3BFF" }}
-          >
-            <span className="sm:hidden">Qoşul</span>
-            <span className="hidden sm:inline">Gözləmə siyahısına qoşul</span>
-          </button>
+          {/* Language switcher + CTA */}
+          <div className="flex items-center gap-3">
+            <LanguageSwitcher />
+            <button
+              onClick={scrollToWaitlist}
+              className="text-white px-4 sm:px-5 py-2.5 rounded-full text-sm font-semibold
+                hover:opacity-90 hover:shadow-lg hover:scale-105 transition-all duration-200
+                whitespace-nowrap"
+              style={{ backgroundColor: "#3B3BFF" }}
+            >
+              <span className="sm:hidden">
+                {lang === "ru" ? "Вступить" : "Qoşul"}
+              </span>
+              <span className="hidden sm:inline">{t.nav.join}</span>
+            </button>
+          </div>
         </div>
       </div>
     </nav>

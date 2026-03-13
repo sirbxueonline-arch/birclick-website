@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
 const LAUNCH_DATE = new Date("2026-03-31T23:59:59+04:00");
 
@@ -25,6 +26,8 @@ function useCountdown() {
 }
 
 export default function WaitlistSection() {
+  const { t } = useLanguage();
+  const w = t.waitlist;
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error" | "duplicate"
@@ -37,7 +40,7 @@ export default function WaitlistSection() {
     const trimmed = email.trim();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setStatus("error");
-      setErrorMessage("Zəhmət olmasa etibarlı e-poçt ünvanı daxil edin.");
+      setErrorMessage(w.errorInvalid);
       return;
     }
     setStatus("loading");
@@ -56,11 +59,11 @@ export default function WaitlistSection() {
         setErrorMessage(data.error);
       } else {
         setStatus("error");
-        setErrorMessage(data.error || "Xəta baş verdi. Yenidən cəhd edin.");
+        setErrorMessage(data.error || w.errorGeneral);
       }
     } catch {
       setStatus("error");
-      setErrorMessage("Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+      setErrorMessage(w.errorGeneral);
     }
   };
 
@@ -101,36 +104,29 @@ export default function WaitlistSection() {
 
         {/* Headline */}
         <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight mb-5 sm:mb-6">
-          BirClick başlayanda
+          {w.h2a}
           <br />
-          <span
-            style={{
-              color: "#3B3BFF",
-              textShadow: "0 0 60px rgba(59,59,255,0.6)",
-            }}
-          >
-            ilk ol.
+          <span style={{ color: "#3B3BFF", textShadow: "0 0 60px rgba(59,59,255,0.6)" }}>
+            {w.h2b}
           </span>
         </h2>
 
-        {/* Subtext */}
         <p className="text-base sm:text-xl text-white/50 mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
-          Azərbaycanda xidmət tapmaq və təklif etmək üçün daha yaxşı
-          yol gözləyən insanlara qoşul.
+          {w.sub}
         </p>
 
         {/* ── Countdown timer ─────────────────────────────────── */}
         {countdown && !countdown.expired && (
           <div className="mb-8 sm:mb-10">
             <p className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">
-              Başlanğıca qalan vaxt
+              {w.countdownLabel}
             </p>
             <div className="flex items-center justify-center gap-2 sm:gap-3">
               {[
-                { value: countdown.days,    label: "Gün" },
-                { value: countdown.hours,   label: "Saat" },
-                { value: countdown.minutes, label: "Dəq" },
-                { value: countdown.seconds, label: "San" },
+                { value: countdown.days,    label: w.days },
+                { value: countdown.hours,   label: w.hours },
+                { value: countdown.minutes, label: w.mins },
+                { value: countdown.seconds, label: w.secs },
               ].map(({ value, label }, i) => (
                 <div key={label} className="flex items-center gap-2 sm:gap-3">
                   <div
@@ -172,7 +168,7 @@ export default function WaitlistSection() {
               </svg>
             </div>
             <p className="font-bold text-lg" style={{ color: "#8080FF" }}>
-              Siz siyahıdasınız. Başladığımızda sizə xəbər verəcəyik.
+              {w.success}
             </p>
           </div>
         ) : (
@@ -188,7 +184,7 @@ export default function WaitlistSection() {
                   setEmail(e.target.value);
                   if (status !== "idle") setStatus("idle");
                 }}
-                placeholder="E-poçtunuzu daxil edin"
+                placeholder={w.placeholder}
                 className={`w-full px-5 py-4 rounded-2xl border-2 text-white
                   placeholder-white/30 bg-white/10 text-base focus:outline-none transition-all
                   ${status === "error" || status === "duplicate"
@@ -225,22 +221,20 @@ export default function WaitlistSection() {
               {status === "loading" ? (
                 <>
                   <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                  Qoşulur...
+                  {w.joining}
                 </>
               ) : (
-                "Gözləmə siyahısına qoşul"
+                w.submit
               )}
             </button>
           </form>
         )}
 
-        <p className="text-sm text-white/25 mt-6">
-          Spam yoxdur. İstənilən vaxt ləğv edə bilərsiniz.
-        </p>
+        <p className="text-sm text-white/25 mt-6">{w.spam}</p>
 
         {/* Mini trust badges */}
         <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 sm:mt-10">
-          {["🔒 Məlumatlarınız qorunur", "✉️ Yalnız əhəmiyyətli e-poçtlar", "🚀 Tezliklə"].map(
+          {w.trust.map(
             (item, i) => (
               <span key={i} className="text-xs text-white/30 font-medium">
                 {item}

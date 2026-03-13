@@ -1,33 +1,7 @@
 "use client";
 
 import { useState } from "react";
-
-const faqs = [
-  {
-    q: "BirClick pulsuzdur?",
-    a: "Bəli, BirClick-ə qoşulmaq və elan yerləşdirmək tamamilə pulsuzdur. Gözləmə siyahısına qoşulun, işə başladığımız kimi sizi xəbərdar edəcəyik.",
-  },
-  {
-    q: "Nə vaxt işə başlayacaq?",
-    a: "Tezliklə Bakıda işə başlayırıq. Dəqiq tarixi bildirmək üçün gözləmə siyahısına qoşulun — ilk istifadəçilərdən biri olun.",
-  },
-  {
-    q: "Hansı xidmətləri tapa bilərəm?",
-    a: "Santexnik, elektrik ustası, ev təmizliyi, sürücü, universal usta və daha çox. Başlanğıcda əsas kateqoriyalar olacaq, tədricən genişlənəcəyik.",
-  },
-  {
-    q: "İşçi kimi necə qeydiyyatdan keçə bilərəm?",
-    a: "İşə başladığımızda profil yaradıb bacarıqlarınızı, qiymətinizi və boş vaxtınızı əlavə edə bilərsiniz. Hazırda gözləmə siyahısına qoşulmaq kifayətdir.",
-  },
-  {
-    q: "Hansı şəhərlərdə mövcud olacaq?",
-    a: "İlk olaraq Bakıda başlayırıq, sonra Azərbaycanın digər şəhərlərinə genişlənəcəyik.",
-  },
-  {
-    q: "Ödəniş necə həyata keçirilir?",
-    a: "İşçilər və müştərilər arasında ödəniş birbaşa razılaşma yolu ilə həyata keçirilir. BirClick heç bir komissiya almır.",
-  },
-];
+import { useLanguage } from "@/components/LanguageProvider";
 
 function FAQItem({ q, a }: { q: string; a: string }) {
   const [open, setOpen] = useState(false);
@@ -75,23 +49,22 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 }
 
 export default function FAQSection() {
+  const { t } = useLanguage();
+  const { eyebrow, title, sub, subLink, subLinkSuffix, items } = t.faq;
+
   return (
     <section className="py-16 sm:py-28 bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
-        {/* Header */}
         <div className="text-center mb-10 sm:mb-14">
-          <span
-            className="text-xs font-bold uppercase tracking-widest"
-            style={{ color: "#3B3BFF" }}
-          >
-            Tez-tez soruşulan suallar
+          <span className="text-xs font-bold uppercase tracking-widest" style={{ color: "#3B3BFF" }}>
+            {eyebrow}
           </span>
           <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
-            Sualınız var?
+            {title}
           </h2>
           <p className="text-gray-400 mt-4">
-            Cavab tapa bilmirsinizsə —{" "}
+            {sub}{" "}
             <a
               href="https://instagram.com/birclick.aze"
               target="_blank"
@@ -99,15 +72,14 @@ export default function FAQSection() {
               className="font-semibold underline underline-offset-2 hover:opacity-70 transition-opacity"
               style={{ color: "#3B3BFF" }}
             >
-              Instagram
+              {subLink}
             </a>
-            {" "}üzərindən bizimlə əlaqə saxlayın.
+            {subLinkSuffix}
           </p>
         </div>
 
-        {/* Accordion */}
         <div className="bg-white rounded-3xl px-5 sm:px-8 shadow-sm border border-gray-100">
-          {faqs.map((faq) => (
+          {items.map((faq) => (
             <FAQItem key={faq.q} q={faq.q} a={faq.a} />
           ))}
         </div>

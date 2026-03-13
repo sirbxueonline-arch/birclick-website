@@ -1,17 +1,19 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import { useLanguage } from "@/components/LanguageProvider";
 
-/* ─── Mock service cards shown on the right side of the hero ─── */
-const mockCards = [
+/* ─── Mock service cards (service labels translate per lang) ─── */
+const mockCardsBase = [
   {
     emoji: "🔧",
     name: "Kamran Əliyev",
-    service: "Santexnik",
+    serviceAz: "Santexnik",
+    serviceRu: "Сантехник",
     price: "₼25/saat",
     rating: "4.9",
     reviews: "47",
-    statusLabel: "İndi mövcud",
+    statusAz: "İndi mövcud",    statusRu: "Доступен сейчас",
     statusDot: "#22c55e",
     accentBg: "#eff6ff",
     animClass: "animate-float1",
@@ -20,11 +22,12 @@ const mockCards = [
   {
     emoji: "⚡",
     name: "Rauf Həsənov",
-    service: "Elektrik ustası",
+    serviceAz: "Elektrik ustası",
+    serviceRu: "Электрик",
     price: "₼30/saat",
     rating: "4.8",
     reviews: "31",
-    statusLabel: "Bu gün mövcud",
+    statusAz: "Bu gün mövcud",  statusRu: "Доступен сегодня",
     statusDot: "#f59e0b",
     accentBg: "#fefce8",
     animClass: "animate-float2",
@@ -33,11 +36,12 @@ const mockCards = [
   {
     emoji: "🧹",
     name: "Aytən Quliyeva",
-    service: "Ev təmizliyi",
+    serviceAz: "Ev təmizliyi",
+    serviceRu: "Уборщица",
     price: "₼18/saat",
     rating: "5.0",
     reviews: "82",
-    statusLabel: "Sabah mövcud",
+    statusAz: "Sabah mövcud",   statusRu: "Доступна завтра",
     statusDot: "#3B3BFF",
     accentBg: "#f0f0ff",
     animClass: "animate-float3",
@@ -55,7 +59,7 @@ const avatars = [
 ];
 
 /* ─── Desktop floating card ─────────────────────────────────── */
-function MockCard({ card }: { card: (typeof mockCards)[0] }) {
+function MockCard({ card }: { card: (typeof mockCardsBase)[0] & { service: string; statusLabel: string } }) {
   return (
     <div
       className={`absolute ${card.posClass} ${card.animClass}
@@ -108,7 +112,7 @@ function MockCard({ card }: { card: (typeof mockCards)[0] }) {
 }
 
 /* ─── Mobile compact card (horizontal scroll) ───────────────── */
-function MobileCard({ card }: { card: (typeof mockCards)[0] }) {
+function MobileCard({ card }: { card: (typeof mockCardsBase)[0] & { service: string; statusLabel: string } }) {
   return (
     <div
       className="flex-shrink-0 bg-white rounded-2xl p-4 w-56 border border-gray-100 snap-start"
@@ -157,6 +161,16 @@ function MobileCard({ card }: { card: (typeof mockCards)[0] }) {
 
 /* ─── Main Hero ─────────────────────────────────────────────── */
 export default function HeroSection() {
+  const { t, lang } = useLanguage();
+  const h = t.hero;
+
+  /* Build translated mock cards */
+  const mockCards = mockCardsBase.map((c) => ({
+    ...c,
+    service: lang === "ru" ? c.serviceRu : c.serviceAz,
+    statusLabel: lang === "ru" ? c.statusRu : c.statusAz,
+  }));
+
   const [email, setEmail] = useState("");
   const [status, setStatus] = useState<
     "idle" | "loading" | "success" | "error" | "duplicate"
@@ -183,7 +197,7 @@ export default function HeroSection() {
     const trimmed = email.trim();
     if (!trimmed || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(trimmed)) {
       setStatus("error");
-      setErrorMessage("Zəhmət olmasa etibarlı e-poçt ünvanı daxil edin.");
+      setErrorMessage(h.errorInvalid);
       return;
     }
     setStatus("loading");
@@ -204,16 +218,19 @@ export default function HeroSection() {
         setErrorMessage(data.error);
       } else {
         setStatus("error");
-        setErrorMessage(data.error || "Xəta baş verdi. Yenidən cəhd edin.");
+        setErrorMessage(data.error || h.errorGeneral);
       }
     } catch {
       setStatus("error");
-      setErrorMessage("Xəta baş verdi. Zəhmət olmasa yenidən cəhd edin.");
+      setErrorMessage(h.errorGeneral);
     }
   };
 
   /* Display string for social proof */
-  const countLabel = "İlk qoşulanlardan biri olun";
+  const countLabel =
+    waitlistCount !== null && waitlistCount > 0
+      ? h.socialCount(waitlistCount)
+      : h.socialFallback;
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-white pt-16 pb-8 sm:pb-0">
@@ -248,22 +265,18 @@ export default function HeroSection() {
                 className="w-2 h-2 rounded-full animate-pulse"
                 style={{ backgroundColor: "#3B3BFF" }}
               />
-              <span className="text-sm font-medium text-gray-600">
-                Tezliklə Azərbaycanda istifadəyə veriləcək
-              </span>
+              <span className="text-sm font-medium text-gray-600">{h.badge}</span>
             </div>
 
             {/* Headline */}
             <h1 className="text-4xl sm:text-5xl xl:text-7xl font-black tracking-tighter text-gray-900 leading-none mb-5 sm:mb-6">
-              İşçiləri tap
+              {h.h1a}
               <br />
-              <span style={{ color: "#3B3BFF" }}>bir kliklə.</span>
+              <span style={{ color: "#3B3BFF" }}>{h.h1b}</span>
             </h1>
 
-            {/* Subheadline */}
             <p className="text-base sm:text-xl text-gray-500 font-light max-w-lg mb-7 sm:mb-10 leading-relaxed">
-              Azərbaycanda insanların saatlıq və ya günlük iş üçün xidmət
-              təklif etdiyi platforma.
+              {h.sub}
             </p>
 
             {/* Form / Success */}
@@ -284,7 +297,7 @@ export default function HeroSection() {
                   </svg>
                 </div>
                 <p className="font-semibold" style={{ color: "#3B3BFF" }}>
-                  Siz siyahıdasınız. Başladığımızda sizə xəbər verəcəyik.
+                  {h.success}
                 </p>
               </div>
             ) : (
@@ -297,7 +310,7 @@ export default function HeroSection() {
                       setEmail(e.target.value);
                       if (status !== "idle") setStatus("idle");
                     }}
-                    placeholder="E-poçtunuzu daxil edin"
+                    placeholder={h.placeholder}
                     className={`w-full px-5 py-4 rounded-2xl border-2 text-gray-900 placeholder-gray-400
                       text-base focus:outline-none transition-all bg-white shadow-sm
                       ${status === "error" || status === "duplicate"
@@ -327,10 +340,10 @@ export default function HeroSection() {
                   {status === "loading" ? (
                     <>
                       <span className="w-4 h-4 border-2 border-white/30 border-t-white rounded-full animate-spin" />
-                      Qoşulur...
+                      {h.joining}
                     </>
                   ) : (
-                    "Siyahıya qoşul"
+                    h.joinBtn
                   )}
                 </button>
               </form>
@@ -354,9 +367,7 @@ export default function HeroSection() {
                 <p className="text-sm font-bold text-gray-900">
                   {countLabel}
                 </p>
-                <p className="text-xs text-gray-400">
-                  Gözləmə siyahısına ilk qoşulun
-                </p>
+                <p className="text-xs text-gray-400">{h.socialSub}</p>
               </div>
             </div>
           </div>
@@ -391,9 +402,8 @@ export default function HeroSection() {
 
         {/* ── Mobile mock cards (horizontal scroll) ──────────────── */}
         <div className="mt-8 lg:hidden">
-          <p className="text-xs font-bold uppercase tracking-widest mb-4"
-            style={{ color: "#3B3BFF" }}>
-            Nümunə işçilər
+          <p className="text-xs font-bold uppercase tracking-widest mb-4" style={{ color: "#3B3BFF" }}>
+            {h.mobileLabel}
           </p>
           <div className="flex gap-4 overflow-x-auto no-scrollbar snap-x snap-mandatory pb-2">
             {mockCards.map((card) => (
