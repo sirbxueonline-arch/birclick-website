@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect } from "react";
+import Image from "next/image";
 
 /* ─── Mock service cards shown on the right side of the hero ─── */
 const mockCards = [
@@ -45,13 +46,13 @@ const mockCards = [
   },
 ];
 
-/* Avatar colours for social proof */
+/* Real-face avatars for social proof (pravatar.cc img IDs are stable) */
 const avatars = [
-  { initial: "N", bg: "#3B3BFF" },
-  { initial: "E", bg: "#8B5CF6" },
-  { initial: "K", bg: "#06B6D4" },
-  { initial: "S", bg: "#F59E0B" },
-  { initial: "L", bg: "#10B981" },
+  { img: "https://i.pravatar.cc/64?img=47" },
+  { img: "https://i.pravatar.cc/64?img=32" },
+  { img: "https://i.pravatar.cc/64?img=15" },
+  { img: "https://i.pravatar.cc/64?img=57" },
+  { img: "https://i.pravatar.cc/64?img=26" },
 ];
 
 /* ─── Desktop floating card ─────────────────────────────────── */
@@ -345,11 +346,15 @@ export default function HeroSection() {
                 {avatars.map((a, i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full border-2 border-white text-white text-xs
-                      font-bold flex items-center justify-center select-none"
-                    style={{ backgroundColor: a.bg }}
+                    className="w-8 h-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0"
                   >
-                    {a.initial}
+                    <Image
+                      src={a.img}
+                      alt="İstifadəçi"
+                      width={32}
+                      height={32}
+                      className="w-full h-full object-cover"
+                    />
                   </div>
                 ))}
               </div>
