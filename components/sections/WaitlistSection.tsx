@@ -34,10 +34,15 @@ export default function WaitlistSection() {
   const countdown = useCountdown();
 
   useEffect(() => {
-    fetch("/api/waitlist-count")
-      .then((r) => r.json())
-      .then((d) => { if (typeof d.count === "number") setWaitlistCount(d.count); })
-      .catch(() => {});
+    const fetchCount = () =>
+      fetch("/api/waitlist-count")
+        .then((r) => r.json())
+        .then((d) => { if (typeof d.count === "number") setWaitlistCount(d.count); })
+        .catch(() => {});
+
+    fetchCount();
+    const id = setInterval(fetchCount, 30_000);
+    return () => clearInterval(id);
   }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -191,7 +196,9 @@ export default function WaitlistSection() {
                 className="text-xs font-bold"
                 style={{ color: "#8080FF" }}
               >
-                {Math.round((waitlistCount / CAPACITY) * 100)}%
+                {waitlistCount / CAPACITY < 0.01
+                  ? "<1%"
+                  : `${Math.round((waitlistCount / CAPACITY) * 100)}%`}
               </span>
             </div>
             <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
