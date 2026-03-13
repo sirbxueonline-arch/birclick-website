@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
-import { sendWaitlistConfirmation } from "@/lib/email";
+import { sendWaitlistConfirmation, addToResendAudience } from "@/lib/email";
 
 const supabase = createClient(
   process.env.NEXT_PUBLIC_SUPABASE_URL!,
@@ -55,9 +55,9 @@ export async function POST(request: NextRequest) {
     const { error } = await supabase.from("waitlist").insert({ email });
     if (error) throw error;
 
-    // ── Confirmation email (non-blocking) ───────────────────────
-    // Requires RESEND_API_KEY in .env.local — skipped if not set
+    // ── Confirmation email + audience (non-blocking) ────────────
     sendWaitlistConfirmation(email).catch(() => {});
+    addToResendAudience(email).catch(() => {});
 
     return NextResponse.json(
       { message: "Gözləmə siyahısına uğurla əlavə edildiniz." },

@@ -1,6 +1,22 @@
-// Sends a waitlist confirmation email via Resend.
+// Sends a waitlist confirmation email via Resend and adds contact to audience.
 // Gracefully skips if RESEND_API_KEY is not configured.
 // Setup: https://resend.com — free tier covers thousands of emails.
+
+export async function addToResendAudience(email: string): Promise<void> {
+  if (!process.env.RESEND_API_KEY || !process.env.RESEND_AUDIENCE_ID) return;
+
+  try {
+    const { Resend } = await import("resend");
+    const resend = new Resend(process.env.RESEND_API_KEY);
+    await resend.contacts.create({
+      email,
+      audienceId: process.env.RESEND_AUDIENCE_ID,
+      unsubscribed: false,
+    });
+  } catch (err) {
+    console.error("[resend] Failed to add contact to audience:", err);
+  }
+}
 
 export async function sendWaitlistConfirmation(email: string): Promise<void> {
   if (!process.env.RESEND_API_KEY) return;

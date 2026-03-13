@@ -3,7 +3,6 @@
 import { useState, useEffect } from "react";
 
 const LAUNCH_DATE = new Date("2026-03-31T23:59:59+04:00");
-const CAPACITY = 500;
 
 function useCountdown() {
   const calc = () => {
@@ -30,20 +29,7 @@ export default function WaitlistSection() {
     "idle" | "loading" | "success" | "error" | "duplicate"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
-  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
   const countdown = useCountdown();
-
-  useEffect(() => {
-    const fetchCount = () =>
-      fetch("/api/waitlist-count")
-        .then((r) => r.json())
-        .then((d) => { if (typeof d.count === "number") setWaitlistCount(d.count); })
-        .catch(() => {});
-
-    fetchCount();
-    const id = setInterval(fetchCount, 30_000);
-    return () => clearInterval(id);
-  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -64,7 +50,6 @@ export default function WaitlistSection() {
       if (res.ok) {
         setStatus("success");
         setEmail("");
-        setWaitlistCount((prev) => (prev !== null ? prev + 1 : 1));
       } else if (res.status === 409) {
         setStatus("duplicate");
         setErrorMessage(data.error);
@@ -182,38 +167,6 @@ export default function WaitlistSection() {
                 </div>
               ))}
             </div>
-          </div>
-        )}
-
-        {/* ── Progress bar ─────────────────────────────────────── */}
-        {waitlistCount !== null && (
-          <div className="mb-8 sm:mb-10 max-w-lg mx-auto">
-            <div className="flex items-center justify-between mb-2">
-              <span className="text-xs font-bold text-white/50">
-                🔥 {waitlistCount} / {CAPACITY} yer doludur
-              </span>
-              <span
-                className="text-xs font-bold"
-                style={{ color: "#8080FF" }}
-              >
-                {waitlistCount / CAPACITY < 0.01
-                  ? "<1%"
-                  : `${Math.round((waitlistCount / CAPACITY) * 100)}%`}
-              </span>
-            </div>
-            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
-              <div
-                className="h-full rounded-full transition-all duration-700"
-                style={{
-                  width: `${Math.min(100, Math.max(2, (waitlistCount / CAPACITY) * 100))}%`,
-                  background: "linear-gradient(90deg, #3B3BFF 0%, #8B5CF6 100%)",
-                  boxShadow: "0 0 12px rgba(59,59,255,0.6)",
-                }}
-              />
-            </div>
-            <p className="text-[11px] text-white/25 mt-1.5 text-right">
-              {CAPACITY - waitlistCount} yer qalıb
-            </p>
           </div>
         )}
 
