@@ -1,0 +1,50 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+/* Floating card animations for Hero mock cards */
+@keyframes float1 {
+  0%, 100% { transform: translateY(0px) rotate(-2deg); }
+  50%       { transform: translateY(-12px) rotate(-2deg); }
+}
+@keyframes float2 {
+  0%, 100% { transform: translateY(0px) rotate(2deg); }
+  50%       { transform: translateY(-8px) rotate(2deg); }
+}
+@keyframes float3 {
+  0%, 100% { transform: translateY(0px) rotate(-1deg); }
+  50%       { transform: translateY(-14px) rotate(-1deg); }
+}
+
+.animate-float1 { animation: float1 5s ease-in-out infinite; }
+.animate-float2 { animation: float2 4.5s ease-in-out 1s infinite; }
+.animate-float3 { animation: float3 6s ease-in-out 0.5s infinite; }
+
+/* Blue mesh glow for Waitlist section */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.55; }
+  50%       { opacity: 0.85; }
+}
+.animate-glow { animation: pulse-glow 4s ease-in-out infinite; }
+
+/* Hide scrollbar for horizontal scroll containers (mobile cards) */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar {
+  -ms-overflow-style: none;  /* IE / Edge */
+  scrollbar-width: none;     /* Firefox */
+}
