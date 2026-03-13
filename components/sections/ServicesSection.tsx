@@ -40,18 +40,18 @@ const services = [
 
 export default function ServicesSection() {
   return (
-    <section className="py-28 bg-gray-50">
+    <section className="py-16 sm:py-28 bg-gray-50">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <span
             className="text-xs font-bold uppercase tracking-widest"
             style={{ color: "#3B3BFF" }}
           >
             Xidmətlər
           </span>
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
             Hər xidmət, bir platforma.
           </h2>
           <p className="text-gray-500 text-lg mt-4 max-w-xl mx-auto">
@@ -66,13 +66,13 @@ export default function ServicesSection() {
               key={s.name}
               className={`
                 group ${s.bgClass} ${s.hoverBorderClass}
-                rounded-3xl p-6 flex flex-col items-center text-center
+                rounded-3xl p-4 sm:p-6 flex flex-col items-center text-center
                 cursor-pointer border-2 border-transparent
                 hover:shadow-xl hover:-translate-y-2
                 transition-all duration-300
               `}
             >
-              <span className="text-5xl mb-4 block group-hover:scale-125 transition-transform duration-200 select-none">
+              <span className="text-4xl sm:text-5xl mb-3 sm:mb-4 block group-hover:scale-125 transition-transform duration-200 select-none">
                 {s.emoji}
               </span>
               <h3 className="font-bold text-gray-900 text-base mb-1 leading-tight">
@@ -88,10 +88,10 @@ export default function ServicesSection() {
           {["🏗️", "🍳", "🐾"].map((emoji, i) => (
             <div
               key={i}
-              className="relative rounded-3xl p-6 flex flex-col items-center text-center
+              className="relative rounded-3xl p-4 sm:p-6 flex flex-col items-center text-center
                 bg-gray-100 border-2 border-dashed border-gray-200 overflow-hidden"
             >
-              <span className="text-5xl mb-4 block select-none opacity-30">
+              <span className="text-4xl sm:text-5xl mb-3 sm:mb-4 block select-none opacity-30">
                 {emoji}
               </span>
               <div className="h-3 w-20 bg-gray-200 rounded-full mb-2" />

@@ -47,11 +47,13 @@ export default function Navbar() {
           {/* CTA */}
           <button
             onClick={scrollToWaitlist}
-            className="text-white px-5 py-2.5 rounded-full text-sm font-semibold
-              hover:opacity-90 hover:shadow-lg hover:scale-105 transition-all duration-200"
+            className="text-white px-4 sm:px-5 py-2.5 rounded-full text-sm font-semibold
+              hover:opacity-90 hover:shadow-lg hover:scale-105 transition-all duration-200
+              whitespace-nowrap"
             style={{ backgroundColor: "#3B3BFF" }}
           >
-            Gözləmə siyahısına qoşul
+            <span className="sm:hidden">Qoşul</span>
+            <span className="hidden sm:inline">Gözləmə siyahısına qoşul</span>
           </button>
         </div>
       </div>

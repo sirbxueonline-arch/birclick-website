@@ -219,7 +219,7 @@ export default function HeroSection() {
       : "İlk qoşulanlardan biri olun";
 
   return (
-    <section className="relative min-h-screen flex items-center overflow-hidden bg-white pt-16">
+    <section className="relative min-h-screen flex items-center overflow-hidden bg-white pt-16 pb-8 sm:pb-0">
       {/* Grid background */}
       <div
         className="absolute inset-0 opacity-40"
@@ -234,8 +234,8 @@ export default function HeroSection() {
       {/* Bottom fade */}
       <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-white to-transparent" />
 
-      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-20">
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 lg:gap-20 items-center">
+      <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 w-full py-10 sm:py-20">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 lg:gap-20 items-center">
 
           {/* ── Left: text + form ─────────────────────────────── */}
           <div>
@@ -257,14 +257,14 @@ export default function HeroSection() {
             </div>
 
             {/* Headline */}
-            <h1 className="text-5xl sm:text-6xl xl:text-7xl font-black tracking-tighter text-gray-900 leading-none mb-6">
+            <h1 className="text-4xl sm:text-5xl xl:text-7xl font-black tracking-tighter text-gray-900 leading-none mb-5 sm:mb-6">
               İşçiləri tap
               <br />
               <span style={{ color: "#3B3BFF" }}>bir kliklə.</span>
             </h1>
 
             {/* Subheadline */}
-            <p className="text-lg sm:text-xl text-gray-500 font-light max-w-lg mb-10 leading-relaxed">
+            <p className="text-base sm:text-xl text-gray-500 font-light max-w-lg mb-7 sm:mb-10 leading-relaxed">
               Azərbaycanda insanların saatlıq və ya günlük iş üçün xidmət
               təklif etdiyi platforma.
             </p>
@@ -340,7 +340,7 @@ export default function HeroSection() {
             )}
 
             {/* Social proof */}
-            <div className="flex items-center gap-3 pt-6 border-t border-gray-100">
+            <div className="flex items-center gap-3 pt-5 sm:pt-6 border-t border-gray-100">
               <div className="flex -space-x-2.5">
                 {avatars.map((a, i) => (
                   <div
@@ -393,7 +393,7 @@ export default function HeroSection() {
         </div>
 
         {/* ── Mobile mock cards (horizontal scroll) ──────────────── */}
-        <div className="mt-12 lg:hidden">
+        <div className="mt-8 lg:hidden">
           <p className="text-xs font-bold uppercase tracking-widest mb-4"
             style={{ color: "#3B3BFF" }}>
             Nümunə işçilər

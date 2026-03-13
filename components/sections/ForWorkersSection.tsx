@@ -14,18 +14,18 @@ const workerBenefits = [
 
 export default function ForWorkersSection() {
   return (
-    <section className="py-28 bg-white">
+    <section className="py-16 sm:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <span
             className="text-xs font-bold uppercase tracking-widest"
             style={{ color: "#3B3BFF" }}
           >
             Hər iki tərəf üçün
           </span>
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
             Müştəri də, işçi də <br className="hidden sm:block" />
             qazanır.
           </h2>
@@ -38,7 +38,7 @@ export default function ForWorkersSection() {
         <div className="grid grid-cols-1 md:grid-cols-2 gap-6 max-w-4xl mx-auto">
 
           {/* Customer card */}
-          <div className="bg-gray-950 rounded-3xl p-8 text-white">
+          <div className="bg-gray-950 rounded-3xl p-6 sm:p-8 text-white">
             <div className="text-4xl mb-5">🛒</div>
             <h3 className="text-2xl font-black mb-2">Müştəri üçün</h3>
             <p className="text-gray-400 text-sm mb-8 leading-relaxed">
@@ -56,7 +56,7 @@ export default function ForWorkersSection() {
 
           {/* Worker card */}
           <div
-            className="rounded-3xl p-8 text-white"
+            className="rounded-3xl p-6 sm:p-8 text-white"
             style={{
               background: "linear-gradient(135deg, #3B3BFF 0%, #6060FF 100%)",
               boxShadow: "0 20px 60px rgba(59,59,255,0.3)",

@@ -40,7 +40,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
           group hover:text-[#3B3BFF] transition-colors duration-200"
       >
         <span className="font-semibold text-gray-900 group-hover:text-[#3B3BFF]
-          transition-colors pr-8 text-base">
+          transition-colors pr-4 sm:pr-8 text-sm sm:text-base">
           {q}
         </span>
         <span
@@ -67,7 +67,7 @@ function FAQItem({ q, a }: { q: string; a: string }) {
         }}
       >
         <div style={{ overflow: "hidden" }}>
-          <p className="text-gray-500 leading-relaxed pb-5 text-sm pr-8">{a}</p>
+          <p className="text-gray-500 leading-relaxed pb-5 text-sm pr-4 sm:pr-8">{a}</p>
         </div>
       </div>
     </div>
@@ -76,18 +76,18 @@ function FAQItem({ q, a }: { q: string; a: string }) {
 
 export default function FAQSection() {
   return (
-    <section className="py-28 bg-gray-50">
+    <section className="py-16 sm:py-28 bg-gray-50">
       <div className="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-14">
+        <div className="text-center mb-10 sm:mb-14">
           <span
             className="text-xs font-bold uppercase tracking-widest"
             style={{ color: "#3B3BFF" }}
           >
             Tez-tez soruşulan suallar
           </span>
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
             Sualınız var?
           </h2>
           <p className="text-gray-400 mt-4">
@@ -106,7 +106,7 @@ export default function FAQSection() {
         </div>
 
         {/* Accordion */}
-        <div className="bg-white rounded-3xl px-8 shadow-sm border border-gray-100">
+        <div className="bg-white rounded-3xl px-5 sm:px-8 shadow-sm border border-gray-100">
           {faqs.map((faq) => (
             <FAQItem key={faq.q} q={faq.q} a={faq.a} />
           ))}

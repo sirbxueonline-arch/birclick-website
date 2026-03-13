@@ -12,7 +12,7 @@ export default function FloatingContact() {
       rel="noopener noreferrer"
       onMouseEnter={() => setHovered(true)}
       onMouseLeave={() => setHovered(false)}
-      className="fixed bottom-6 right-6 z-50 flex items-center gap-2.5
+      className="fixed bottom-20 sm:bottom-6 right-4 sm:right-6 z-40 flex items-center gap-2.5
         bg-black text-white rounded-full shadow-2xl
         hover:scale-105 transition-all duration-300"
       style={{

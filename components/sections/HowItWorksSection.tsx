@@ -37,18 +37,18 @@ const steps = [
 
 export default function HowItWorksSection() {
   return (
-    <section className="py-28 bg-white">
+    <section className="py-16 sm:py-28 bg-white">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
 
         {/* Header */}
-        <div className="text-center mb-16">
+        <div className="text-center mb-10 sm:mb-16">
           <span
             className="text-xs font-bold uppercase tracking-widest"
             style={{ color: "#3B3BFF" }}
           >
             Necə işləyir
           </span>
-          <h2 className="text-4xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
+          <h2 className="text-3xl sm:text-5xl font-black tracking-tight text-gray-900 mt-3">
             1, 2, 3 qədər sadə.
           </h2>
           <p className="text-gray-400 mt-4 text-base max-w-md mx-auto">
@@ -68,7 +68,7 @@ export default function HowItWorksSection() {
           {steps.map((step) => (
             <div
               key={step.number}
-              className="relative z-10 group bg-white border border-gray-100 rounded-3xl p-8
+              className="relative z-10 group bg-white border border-gray-100 rounded-3xl p-6 sm:p-8
                 hover:border-transparent hover:shadow-2xl hover:-translate-y-2
                 transition-all duration-300"
             >

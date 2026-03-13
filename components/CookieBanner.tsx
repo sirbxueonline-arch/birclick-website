@@ -29,7 +29,7 @@ export default function CookieBanner() {
         flex-wrap gap-4 px-5 py-4 bg-gray-950 border-t border-white/10
         text-white text-sm shadow-2xl"
     >
-      <p className="text-white/70 max-w-xl leading-snug">{t.cookie.text}</p>
+      <p className="text-white/70 max-w-xl leading-snug text-xs sm:text-sm">{t.cookie.text}</p>
       <div className="flex items-center gap-3 flex-shrink-0">
         <button
           onClick={() => save("declined")}

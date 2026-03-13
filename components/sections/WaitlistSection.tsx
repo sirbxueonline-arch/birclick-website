@@ -42,7 +42,7 @@ export default function WaitlistSection() {
   };
 
   return (
-    <section id="waitlist" className="relative py-32 overflow-hidden bg-black">
+    <section id="waitlist" className="relative py-20 sm:py-32 overflow-hidden bg-black">
 
       {/* Animated blue glow orbs */}
       <div
@@ -94,7 +94,7 @@ export default function WaitlistSection() {
         </div>
 
         {/* Headline */}
-        <h2 className="text-5xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight mb-6">
+        <h2 className="text-4xl sm:text-6xl lg:text-7xl font-black tracking-tight text-white leading-tight mb-5 sm:mb-6">
           BirClick başlayanda
           <br />
           <span
@@ -108,7 +108,7 @@ export default function WaitlistSection() {
         </h2>
 
         {/* Subtext */}
-        <p className="text-xl text-white/50 mb-12 max-w-xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-xl text-white/50 mb-8 sm:mb-12 max-w-xl mx-auto leading-relaxed">
           Azərbaycanda xidmət tapmaq və təklif etmək üçün daha yaxşı
           yol gözləyən insanlara qoşul.
         </p>
@@ -175,7 +175,7 @@ export default function WaitlistSection() {
               className="text-white font-bold px-7 py-4 rounded-2xl text-base
                 hover:opacity-90 hover:scale-105 transition-all duration-200
                 disabled:opacity-60 disabled:cursor-not-allowed disabled:scale-100
-                flex items-center justify-center gap-2 whitespace-nowrap min-w-[190px]"
+                flex items-center justify-center gap-2 whitespace-nowrap w-full sm:w-auto sm:min-w-[190px]"
               style={{
                 backgroundColor: "#3B3BFF",
                 boxShadow: "0 0 40px rgba(59,59,255,0.5)",
@@ -198,7 +198,7 @@ export default function WaitlistSection() {
         </p>
 
         {/* Mini trust badges */}
-        <div className="flex items-center justify-center gap-6 mt-10">
+        <div className="flex flex-wrap items-center justify-center gap-x-5 gap-y-2 mt-8 sm:mt-10">
           {["🔒 Məlumatlarınız qorunur", "✉️ Yalnız əhəmiyyətli e-poçtlar", "🚀 Tezliklə"].map(
             (item, i) => (
               <span key={i} className="text-xs text-white/30 font-medium">
