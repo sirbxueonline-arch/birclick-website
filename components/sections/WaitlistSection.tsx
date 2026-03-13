@@ -15,8 +15,9 @@ function useCountdown() {
       expired: diff === 0,
     };
   };
-  const [time, setTime] = useState(calc);
+  const [time, setTime] = useState<ReturnType<typeof calc> | null>(null);
   useEffect(() => {
+    setTime(calc());
     const id = setInterval(() => setTime(calc()), 1000);
     return () => clearInterval(id);
   }, []);
@@ -119,7 +120,7 @@ export default function WaitlistSection() {
         </p>
 
         {/* ── Countdown timer ─────────────────────────────────── */}
-        {!countdown.expired && (
+        {countdown && !countdown.expired && (
           <div className="mb-8 sm:mb-10">
             <p className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">
               Başlanğıca qalan vaxt
