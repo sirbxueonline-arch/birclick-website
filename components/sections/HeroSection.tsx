@@ -1,7 +1,6 @@
 "use client";
 
 import { useState, useEffect } from "react";
-import Image from "next/image";
 
 /* ─── Mock service cards shown on the right side of the hero ─── */
 const mockCards = [
@@ -46,13 +45,13 @@ const mockCards = [
   },
 ];
 
-/* Real-face avatars for social proof — served from /public/avatars/ */
+/* Avatar colours for social proof */
 const avatars = [
-  { img: "/avatars/avatar1.jpg" },
-  { img: "/avatars/avatar2.jpg" },
-  { img: "/avatars/avatar3.jpg" },
-  { img: "/avatars/avatar4.jpg" },
-  { img: "/avatars/avatar5.jpg" },
+  { initial: "N", bg: "#3B3BFF" },
+  { initial: "E", bg: "#8B5CF6" },
+  { initial: "K", bg: "#06B6D4" },
+  { initial: "S", bg: "#F59E0B" },
+  { initial: "L", bg: "#10B981" },
 ];
 
 /* ─── Desktop floating card ─────────────────────────────────── */
@@ -214,10 +213,7 @@ export default function HeroSection() {
   };
 
   /* Display string for social proof */
-  const countLabel =
-    waitlistCount !== null && waitlistCount > 0
-      ? `${waitlistCount}+ nəfər artıq qoşulub`
-      : "İlk qoşulanlardan biri olun";
+  const countLabel = "İlk qoşulanlardan biri olun";
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden bg-white pt-16 pb-8 sm:pb-0">
@@ -346,15 +342,11 @@ export default function HeroSection() {
                 {avatars.map((a, i) => (
                   <div
                     key={i}
-                    className="w-8 h-8 rounded-full border-2 border-white overflow-hidden flex-shrink-0"
+                    className="w-8 h-8 rounded-full border-2 border-white text-white text-xs
+                      font-bold flex items-center justify-center select-none"
+                    style={{ backgroundColor: a.bg }}
                   >
-                    <Image
-                      src={a.img}
-                      alt="İstifadəçi"
-                      width={32}
-                      height={32}
-                      className="w-full h-full object-cover"
-                    />
+                    {a.initial}
                   </div>
                 ))}
               </div>
