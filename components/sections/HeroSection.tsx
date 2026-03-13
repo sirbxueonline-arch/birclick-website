@@ -46,13 +46,13 @@ const mockCards = [
   },
 ];
 
-/* Real-face avatars for social proof (pravatar.cc img IDs are stable) */
+/* Real-face avatars for social proof — served from /public/avatars/ */
 const avatars = [
-  { img: "https://i.pravatar.cc/64?img=47" },
-  { img: "https://i.pravatar.cc/64?img=32" },
-  { img: "https://i.pravatar.cc/64?img=15" },
-  { img: "https://i.pravatar.cc/64?img=57" },
-  { img: "https://i.pravatar.cc/64?img=26" },
+  { img: "/avatars/avatar1.jpg" },
+  { img: "/avatars/avatar2.jpg" },
+  { img: "/avatars/avatar3.jpg" },
+  { img: "/avatars/avatar4.jpg" },
+  { img: "/avatars/avatar5.jpg" },
 ];
 
 /* ─── Desktop floating card ─────────────────────────────────── */
