@@ -1,12 +1,6 @@
-import { createClient } from "@supabase/supabase-js";
 import { NextRequest, NextResponse } from "next/server";
 import { checkRateLimit } from "@/lib/rateLimit";
 import { sendWaitlistConfirmation, addToResendAudience } from "@/lib/email";
-
-const supabase = createClient(
-  process.env.NEXT_PUBLIC_SUPABASE_URL!,
-  process.env.SUPABASE_SERVICE_ROLE_KEY!
-);
 
 const EMAIL_REGEX = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
@@ -18,7 +12,7 @@ export async function POST(request: NextRequest) {
       request.headers.get("x-real-ip") ??
       "unknown";
 
-    const { allowed } = checkRateLimit(ip, 5, 60_000); // 5 req / minute
+    const { allowed } = checkRateLimit(ip, 5, 60_000);
     if (!allowed) {
       return NextResponse.json(
         { error: "Çox sayda sorğu. Bir dəqiqə gözləyin." },
@@ -37,27 +31,9 @@ export async function POST(request: NextRequest) {
       );
     }
 
-    // ── Duplicate check ─────────────────────────────────────────
-    const { data: existing } = await supabase
-      .from("waitlist")
-      .select("id")
-      .eq("email", email)
-      .maybeSingle();
-
-    if (existing) {
-      return NextResponse.json(
-        { error: "Bu e-poçt artıq gözləmə siyahısındadır!" },
-        { status: 409 }
-      );
-    }
-
-    // ── Insert ──────────────────────────────────────────────────
-    const { error } = await supabase.from("waitlist").insert({ email });
-    if (error) throw error;
-
-    // ── Confirmation email + audience (non-blocking) ────────────
-    sendWaitlistConfirmation(email).catch(() => {});
+    // ── Add to Resend audience + send confirmation (non-blocking) ─
     addToResendAudience(email).catch(() => {});
+    sendWaitlistConfirmation(email).catch(() => {});
 
     return NextResponse.json(
       { message: "Gözləmə siyahısına uğurla əlavə edildiniz." },
