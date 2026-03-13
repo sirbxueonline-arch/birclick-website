@@ -1,6 +1,28 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
+
+const LAUNCH_DATE = new Date("2026-03-31T23:59:59+04:00");
+const CAPACITY = 500;
+
+function useCountdown() {
+  const calc = () => {
+    const diff = Math.max(0, LAUNCH_DATE.getTime() - Date.now());
+    return {
+      days:    Math.floor(diff / 86_400_000),
+      hours:   Math.floor((diff % 86_400_000) / 3_600_000),
+      minutes: Math.floor((diff % 3_600_000)  / 60_000),
+      seconds: Math.floor((diff % 60_000)     / 1_000),
+      expired: diff === 0,
+    };
+  };
+  const [time, setTime] = useState(calc);
+  useEffect(() => {
+    const id = setInterval(() => setTime(calc()), 1000);
+    return () => clearInterval(id);
+  }, []);
+  return time;
+}
 
 export default function WaitlistSection() {
   const [email, setEmail] = useState("");
@@ -8,6 +30,15 @@ export default function WaitlistSection() {
     "idle" | "loading" | "success" | "error" | "duplicate"
   >("idle");
   const [errorMessage, setErrorMessage] = useState("");
+  const [waitlistCount, setWaitlistCount] = useState<number | null>(null);
+  const countdown = useCountdown();
+
+  useEffect(() => {
+    fetch("/api/waitlist-count")
+      .then((r) => r.json())
+      .then((d) => { if (typeof d.count === "number") setWaitlistCount(d.count); })
+      .catch(() => {});
+  }, []);
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -28,6 +59,7 @@ export default function WaitlistSection() {
       if (res.ok) {
         setStatus("success");
         setEmail("");
+        setWaitlistCount((prev) => (prev !== null ? prev + 1 : 1));
       } else if (res.status === 409) {
         setStatus("duplicate");
         setErrorMessage(data.error);
@@ -108,10 +140,75 @@ export default function WaitlistSection() {
         </h2>
 
         {/* Subtext */}
-        <p className="text-base sm:text-xl text-white/50 mb-8 sm:mb-12 max-w-xl mx-auto leading-relaxed">
+        <p className="text-base sm:text-xl text-white/50 mb-8 sm:mb-10 max-w-xl mx-auto leading-relaxed">
           Azərbaycanda xidmət tapmaq və təklif etmək üçün daha yaxşı
           yol gözləyən insanlara qoşul.
         </p>
+
+        {/* ── Countdown timer ─────────────────────────────────── */}
+        {!countdown.expired && (
+          <div className="mb-8 sm:mb-10">
+            <p className="text-xs font-bold uppercase tracking-widest text-white/30 mb-3">
+              Başlanğıca qalan vaxt
+            </p>
+            <div className="flex items-center justify-center gap-2 sm:gap-3">
+              {[
+                { value: countdown.days,    label: "Gün" },
+                { value: countdown.hours,   label: "Saat" },
+                { value: countdown.minutes, label: "Dəq" },
+                { value: countdown.seconds, label: "San" },
+              ].map(({ value, label }, i) => (
+                <div key={label} className="flex items-center gap-2 sm:gap-3">
+                  <div
+                    className="flex flex-col items-center justify-center w-14 h-14 sm:w-16 sm:h-16 rounded-2xl border"
+                    style={{
+                      backgroundColor: "rgba(59,59,255,0.15)",
+                      borderColor: "rgba(59,59,255,0.35)",
+                    }}
+                  >
+                    <span className="text-xl sm:text-2xl font-black text-white tabular-nums leading-none">
+                      {String(value).padStart(2, "0")}
+                    </span>
+                    <span className="text-[10px] text-white/40 font-semibold mt-0.5">{label}</span>
+                  </div>
+                  {i < 3 && (
+                    <span className="text-white/30 font-black text-lg -mt-3 select-none">:</span>
+                  )}
+                </div>
+              ))}
+            </div>
+          </div>
+        )}
+
+        {/* ── Progress bar ─────────────────────────────────────── */}
+        {waitlistCount !== null && (
+          <div className="mb-8 sm:mb-10 max-w-lg mx-auto">
+            <div className="flex items-center justify-between mb-2">
+              <span className="text-xs font-bold text-white/50">
+                🔥 {waitlistCount} / {CAPACITY} yer doludur
+              </span>
+              <span
+                className="text-xs font-bold"
+                style={{ color: "#8080FF" }}
+              >
+                {Math.round((waitlistCount / CAPACITY) * 100)}%
+              </span>
+            </div>
+            <div className="h-2 rounded-full overflow-hidden" style={{ backgroundColor: "rgba(255,255,255,0.08)" }}>
+              <div
+                className="h-full rounded-full transition-all duration-700"
+                style={{
+                  width: `${Math.min(100, Math.max(2, (waitlistCount / CAPACITY) * 100))}%`,
+                  background: "linear-gradient(90deg, #3B3BFF 0%, #8B5CF6 100%)",
+                  boxShadow: "0 0 12px rgba(59,59,255,0.6)",
+                }}
+              />
+            </div>
+            <p className="text-[11px] text-white/25 mt-1.5 text-right">
+              {CAPACITY - waitlistCount} yer qalıb
+            </p>
+          </div>
+        )}
 
         {/* Form / Success */}
         {status === "success" ? (
